@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhonePlayer : NetworkBehaviour
+public class MobilePlayer : NetworkBehaviour
 {
 
 
@@ -37,7 +37,12 @@ public class PhonePlayer : NetworkBehaviour
                     moveVertical = 1f;
                 }
             }
-            
+            else
+            {
+            moveHorizontal = Input.GetAxis("Horizontal");
+            moveVertical = Input.GetAxis("Vertical");
+            }
+
             float moveSense = 7.5f;
             Vector3 movement = new Vector3(moveHorizontal * deltaTime * moveSense, moveVertical * deltaTime * moveSense, 0);
             transform.position = transform.position + movement;
@@ -48,5 +53,12 @@ public class PhonePlayer : NetworkBehaviour
     void Update()
     {
         HandleMovement(Time.deltaTime);
+    }
+
+
+    public void Enlarge()
+    {
+        Vector3 scale = new Vector3(5f ,5f ,5f);
+        transform.position += scale;
     }
 }
