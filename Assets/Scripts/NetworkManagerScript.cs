@@ -5,16 +5,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using Mirror;
 
-
 public struct CreatePlayerMessage : NetworkMessage
 {
     public bool clientConnection;
 }
 
-public class MyNetworkManager : NetworkManager
+
+public class NetworkManagerScript : NetworkManager
 {
 
-    public GameObject mobilePlayerPrefab;
+    public GameObject phonePlayerPrefab;
+
+    public NetworkConnection serverConn;
+    public NetworkConnection clientConn;
 
 
     public override void OnStartServer()
@@ -74,14 +77,17 @@ public class MyNetworkManager : NetworkManager
 
         if (message.clientConnection == true)
         {
-            gameobject = Instantiate(mobilePlayerPrefab);
+            gameobject = Instantiate(phonePlayerPrefab);
+            clientConn = conn;
         }
         else
         {
             gameobject = Instantiate(playerPrefab);
+            serverConn = conn;
+            Debug.Log("Server Conn Established");
         }
 
-
+        Debug.Log("Added Player For Connection");
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 }
